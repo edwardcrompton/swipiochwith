@@ -1,22 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const wordElement = document.getElementById('word');
     const leftButton = document.getElementById('leftButton');
     const rightButton = document.getElementById('rightButton');
-    
-    leftButton.addEventListener('click', () => {
-        const event = new Event('swipeleft');
-        wordElement.dispatchEvent(event);
-    });
-
-    rightButton.addEventListener('click', () => {
-        const event = new Event('swiperight');
-        wordElement.dispatchEvent(event);
-    });
-    const wordElement = document.getElementById('word');
+    leftButton.style.display = 'none';
+    rightButton.style.display = 'none';
     const words = [
-        { word: 'hello', score: 10 },
-        { word: 'world', score: 10 },
-        { word: 'goodbye', score: 10 },
-        { word: 'moon', score: 10 }
+        { word: 'hello', score: 10, translation: 'helo' },
+        { word: 'world', score: 10, translation: 'byd' },
+        { word: 'goodbye', score: 10, translation: 'hwyl fawr' },
+        { word: 'moon', score: 10, translation: 'lleuad' },
+        { word: 'sun', score: 10, translation: 'haul' },
+        { word: 'star', score: 10, translation: 'seren' },
+        { word: 'sky', score: 10, translation: 'awyr' },
+        { word: 'earth', score: 10, translation: 'daear' },
+        { word: 'water', score: 10, translation: 'dŵr' },
+        { word: 'fire', score: 10, translation: 'tân' }
     ];
     let randomIndex = Math.floor(Math.random() * words.length);
     wordElement.textContent = words[randomIndex].word;
@@ -29,18 +27,28 @@ document.addEventListener('DOMContentLoaded', () => {
         } while (newIndex === randomIndex);
         randomIndex = newIndex;
         wordElement.textContent = words[randomIndex].word;
+        leftButton.style.display = 'none';
+        rightButton.style.display = 'none';
         console.log(words);
     };
 
-    wordElement.addEventListener('click', updateWord);
+    wordElement.addEventListener('click', () => {
+        if (wordElement.textContent === words[randomIndex].word) {
+            wordElement.textContent = words[randomIndex].translation;
+            leftButton.style.display = 'inline';
+            rightButton.style.display = 'inline';
+        } else {
+            updateWord();
+        }
+    });
 
-    wordElement.addEventListener('swipeleft', () => {
+    leftButton.addEventListener('click', () => {
         words[randomIndex].score--;
         updateWord();
     });
 
-    wordElement.addEventListener('swiperight', () => {
+    rightButton.addEventListener('click', () => {
         words[randomIndex].score++;
         updateWord();
     });
-}); 
+});
