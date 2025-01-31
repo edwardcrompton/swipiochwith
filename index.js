@@ -69,16 +69,58 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
+    const fadeBackground = (color) => {
+        const initialColor = document.body.style.backgroundColor;
+        const fadeDuration = 500;
+        const fadeStep = 10;
+        let fadeAmount = 0;
+
+        const fadeInterval = setInterval(() => {
+            fadeAmount += fadeStep;
+            const colorValue = Math.min(255, (fadeAmount / fadeDuration) * 255);
+            document.body.style.backgroundColor = `rgb(${color === 'green' ? 0 : colorValue}, ${color === 'green' ? colorValue : 0}, 0)`;
+
+            if (fadeAmount >= fadeDuration) {
+                clearInterval(fadeInterval);
+
+                setTimeout(() => {
+                    const fadeOutInterval = setInterval(() => {
+                        fadeAmount -= fadeStep;
+                        const colorValue = Math.min(255, (fadeAmount / fadeDuration) * 255);
+                        document.body.style.backgroundColor = `rgb(${color === 'green' ? 0 : colorValue}, ${color === 'green' ? colorValue : 0}, 0)`;
+
+                        if (fadeAmount <= 0) {
+                            clearInterval(fadeOutInterval);
+                            document.body.style.backgroundColor = initialColor;
+                        }
+                    }, fadeStep);
+                }, fadeDuration);
+            }
+        }, fadeStep);
+    };
+
     leftButton.addEventListener('click', () => {
+        fadeBackground('red');
+        const fadeDuration = 500;
         words[randomIndex].score--;
         // When the score is changed, update the words array in localForage.
         localforage.setItem('words', words);
-        updateWord();
+        setTimeout(() => {
+            updateWord();
+        }, fadeDuration * 2);
     });
 
     rightButton.addEventListener('click', () => {
+        // Add a special effect so that background of the screen gradually changes to green and back over the course of half a second.
+        // Call fadeBackground('green') to change the background to green and fadeBackground('red') to change it back to red.
+        
+        fadeBackground('green');
+        const fadeDuration = 500;
+
         words[randomIndex].score++;
         localforage.setItem('words', words);
-        updateWord();
+        setTimeout(() => {
+            updateWord();
+        }, fadeDuration * 2);
     });
 });
