@@ -5,9 +5,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     leftButton.style.display = 'none';
     rightButton.style.display = 'none';
     const defaultWords = [
-        { word: 'hello', score: 10, translation: 'helo' },
+        { word: 'hello', score: 20, translation: 'helo' },
         { word: 'world', score: 10, translation: 'byd' },
-        { word: 'goodbye', score: 10, translation: 'hwyl fawr' },
+        { word: 'goodbye', score: 2, translation: 'hwyl fawr' },
         { word: 'moon', score: 10, translation: 'lleuad' },
         { word: 'sun', score: 10, translation: 'haul' },
         { word: 'star', score: 10, translation: 'seren' },
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         do {
             // Use the score associated with each word to weight to probability of selection.
             // The higher the score, the less likely the word will be selected.
-            const totalInverseScore = words.reduce((total, word) => total + (1 / word.score), 0);
+            const totalInverseScore = words.reduce((total, word) => total + (word.score > 0 ? 1 / word.score : 0), 0);
             const randomScore = Math.random() * totalInverseScore;
             let scoreSum = 0;
             for (let i = 0; i < words.length; i++) {
@@ -70,39 +70,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     const fadeBackground = (color) => {
-        const initialColor = document.body.style.backgroundColor;
-        const fadeDuration = 500;
-        const fadeStep = 10;
-        let fadeAmount = 0;
-
-        const fadeInterval = setInterval(() => {
-            fadeAmount += fadeStep;
-            const colorValue = Math.min(255, (fadeAmount / fadeDuration) * 255);
-            document.body.style.backgroundColor = `rgb(${color === 'green' ? 0 : colorValue}, ${color === 'green' ? colorValue : 0}, 0)`;
-
-            if (fadeAmount >= fadeDuration) {
-                clearInterval(fadeInterval);
-
-                setTimeout(() => {
-                    const fadeOutInterval = setInterval(() => {
-                        fadeAmount -= fadeStep;
-                        const colorValue = Math.min(255, (fadeAmount / fadeDuration) * 255);
-                        document.body.style.backgroundColor = `rgb(${color === 'green' ? 0 : colorValue}, ${color === 'green' ? colorValue : 0}, 0)`;
-
-                        if (fadeAmount <= 0) {
-                            clearInterval(fadeOutInterval);
-                            document.body.style.backgroundColor = initialColor;
-                        }
-                    }, fadeStep);
-                }, fadeDuration);
-            }
-        }, fadeStep);
+        document.body.classList.add(`fade-${color}`);
+        setTimeout(() => {
+            document.body.classList.remove(`fade-${color}`);
+        }, 1000); // 500ms for fade in and 500ms for fade out
     };
 
     leftButton.addEventListener('click', () => {
         fadeBackground('red');
         const fadeDuration = 500;
-        words[randomIndex].score--;
+        // Decrement the score by 1 but do not let it go below 0.
+        if (words[randomIndex].score > 0) {
+            words[randomIndex].score--;
+        }
         // When the score is changed, update the words array in localForage.
         localforage.setItem('words', words);
         setTimeout(() => {

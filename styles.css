@@ -1,0 +1,40 @@
+body {
+    font-size: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: sans-serif;
+    text-align: center;
+}
+
+button {
+    margin: 0 10px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.fade-red {
+    animation: fadeRed 1s;
+}
+
+.fade-green {
+    animation: fadeGreen 1s;
+}
+
+@keyframes fadeRed {
+    0% { background-color: white; }
+    50% { background-color: #ff9999; } /* brighter pastel red */
+    100% { background-color: white; }
+}
+
+@keyframes fadeGreen {
+    0% { background-color: white; }
+    50% { background-color: #99ff99; } /* brighter pastel green */
+    100% { background-color: white; }
+}
