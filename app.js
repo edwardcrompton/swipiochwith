@@ -37,20 +37,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     const updateWord = () => {
         let newIndex;
         do {
-            // Use the score associated with each word to weight to probability of selection.
-            // The higher the score, the less likely the word will be selected.
-            const totalInverseScore = words.reduce((total, word) => total + (word.score > 0 ? 1 / word.score : 0), 0);
-            const randomScore = Math.random() * totalInverseScore;
+            // Use the score associated with each word to weight the probability of selection.
+            // The higher the score, the more likely the word will be selected.
+            const totalScore = words.reduce((total, word) => total + word.score, 0);
+            const randomScore = Math.random() * totalScore;
             let scoreSum = 0;
             for (let i = 0; i < words.length; i++) {
-                scoreSum += (1 / words[i].score);
+                scoreSum += words[i].score;
                 if (scoreSum >= randomScore) {
                     newIndex = i;
                     break;
                 }
             }
-            // If the new index is the same as the current index, try again.
-            //newIndex = Math.floor(Math.random() * words.length);
         } while (newIndex === randomIndex);
         randomIndex = newIndex;
         wordElement.textContent = words[randomIndex].word;
@@ -79,11 +77,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     leftButton.addEventListener('click', () => {
         fadeBackground('red');
         const fadeDuration = 500;
-        // Decrement the score by 1 but do not let it go below 0.
-        if (words[randomIndex].score > 0) {
-            words[randomIndex].score--;
-        }
-        // When the score is changed, update the words array in localForage.
+        // Increment the score
+        words[randomIndex].score++;
+        // Update the words array in localForage
         localforage.setItem('words', words);
         setTimeout(() => {
             updateWord();
@@ -91,13 +87,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     rightButton.addEventListener('click', () => {
-        // Add a special effect so that background of the screen gradually changes to green and back over the course of half a second.
-        // Call fadeBackground('green') to change the background to green and fadeBackground('red') to change it back to red.
-        
         fadeBackground('green');
         const fadeDuration = 500;
-
-        words[randomIndex].score++;
+        // Decrement the score by 1 but do not let it go below 1.
+        if (words[randomIndex].score > 1) {
+            words[randomIndex].score--;
+        }
+        // Update the words array in localForage
         localforage.setItem('words', words);
         setTimeout(() => {
             updateWord();
