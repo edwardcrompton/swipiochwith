@@ -17,12 +17,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         { word: 'fire', score: 10, translation: 'tân' }
     ];
 
-    // Initialize localForage
-    localforage.config({
-        name: 'wordApp',
-        storeName: 'words'
-    });
-
     // Retrieve words from localForage or use default words
     let words = await localforage.getItem('words');
     if (!words) {

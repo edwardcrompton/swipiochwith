@@ -1,15 +1,28 @@
 <html>
-  <head>
-    <title>Word</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.9.0/localforage.min.js"></script>
-    <script src="app.js"></script>
-  </head>
-  <body>
-    <h1 id="word"></h1>
-    <div class="button-container">
-      <button id="leftButton">Left</button>
-      <button id="rightButton">Right</button>
-    </div>
-  </body>
+
+<head>
+  <title>Word</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.9.0/localforage.min.js"></script>
+  <script src="app.js"></script>
+</head>
+
+<body>
+  <h1 id="word"></h1>
+  <div class="button-container">
+    <button id="leftButton">Left</button>
+    <button id="rightButton">Right</button>
+  </div>
+  <div class="upload-container">
+    <input type="file" id="csvFileInput" accept=".csv">
+    <button id="uploadButton">Upload</button>
+    <script src="upload.js"></script>
+  <script>
+    document.getElementById('uploadButton').addEventListener('click', function() {
+      showPopup();
+    });
+  </script>
+  </div>
+</body>
+
 </html>
