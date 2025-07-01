@@ -98,11 +98,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const handleGesture = () => {
         if (touchEndX < touchStartX - 50) {
-            // Swipe right
-            rightButton.click();
-        } else if (touchEndX > touchStartX + 50) {
-            // Swipe left
+            // Swipe left triggers the left button
             leftButton.click();
+        } else if (touchEndX > touchStartX + 50) {
+            // Swipe right triggers the right button
+            rightButton.click();
         }
     };
 
