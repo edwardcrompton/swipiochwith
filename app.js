@@ -26,7 +26,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     wordElement.textContent = words[randomIndex].word;
     console.log(words);
 
+    const checkAllWordsLearnt = () => {
+        if (words.every(word => word.score === 1)) {
+            // Fireworks animation
+            document.body.classList.add('fireworks');
+            setTimeout(() => {
+                document.body.classList.remove('fireworks');
+                alert("You've learnt these words. You need to upload a new list!");
+            }, 2000);
+        }
+    };
+
     const updateWord = () => {
+        checkAllWordsLearnt();
         let newIndex;
         do {
             // Use the score associated with each word to weight the probability of selection.

@@ -39,6 +39,19 @@ button {
     100% { background-color: white; }
 }
 
+/* Fireworks animation */
+@keyframes fireworks {
+    0% { background-color: white; }
+    25% { background-color: #ffccff; }
+    50% { background-color: #ccffff; }
+    75% { background-color: #ffffcc; }
+    100% { background-color: white; }
+}
+
+body.fireworks {
+    animation: fireworks 2s infinite;
+}
+
 /* Hide buttons on mobile devices */
 @media (max-width: 768px) {
     .button-container {
