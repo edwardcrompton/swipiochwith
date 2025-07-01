@@ -91,4 +91,27 @@ document.addEventListener('DOMContentLoaded', async () => {
             updateWord();
         }, fadeDuration * 2);
     });
+
+    // Add swipe detection
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    const handleGesture = () => {
+        if (touchEndX < touchStartX - 50) {
+            // Swipe left
+            leftButton.click();
+        } else if (touchEndX > touchStartX + 50) {
+            // Swipe right
+            rightButton.click();
+        }
+    };
+
+    document.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+
+    document.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleGesture();
+    });
 });
