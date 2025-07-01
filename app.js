@@ -2,8 +2,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const wordElement = document.getElementById('word');
     const leftButton = document.getElementById('leftButton');
     const rightButton = document.getElementById('rightButton');
-    leftButton.style.display = 'none';
-    rightButton.style.display = 'none';
     const defaultWords = [
         { word: 'hello', score: 20, translation: 'helo' },
         { word: 'world', score: 10, translation: 'byd' },
@@ -54,8 +52,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     wordElement.addEventListener('click', () => {
         if (wordElement.textContent === words[randomIndex].word) {
             wordElement.textContent = words[randomIndex].translation;
-            leftButton.style.display = 'inline';
-            rightButton.style.display = 'inline';
+            leftButton.style.display = 'inline-block'; // Ensure buttons are displayed
+            rightButton.style.display = 'inline-block'; // Ensure buttons are displayed
         } else {
             updateWord();
         }
