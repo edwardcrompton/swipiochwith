@@ -38,3 +38,10 @@ button {
     50% { background-color: #99ff99; } /* brighter pastel green */
     100% { background-color: white; }
 }
+
+/* Hide buttons on mobile devices */
+@media (max-width: 768px) {
+    .button-container {
+        display: none;
+    }
+}
